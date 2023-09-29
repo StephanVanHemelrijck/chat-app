@@ -6,7 +6,13 @@ export async function POST(req) {
     const { email, username, password } = body;
 
     // Register user from function in auth.js
-    const userCredential = await registerUser(email, username, password);
+    try {
+        const userCredential = await registerUser(email, username, password);
 
-    return Response.json({ userCredential });
+        // Return user credential
+        return Response.json(userCredential);
+    } catch (error) {
+        console.log(error);
+        return Response.json({ error: error.message }, { status: 500 });
+    }
 }
