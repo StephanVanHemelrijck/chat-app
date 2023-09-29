@@ -4,14 +4,29 @@ import React, { useEffect, useState } from 'react';
 
 const Register = () => {
     const [credentials, setCredentials] = useState({ email: '', username: '', password: '' });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
     };
 
-    const handleRegister = (e) => {
-        console.log('attempted to register');
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        console.log('credentials', credentials);
+
+        fetch('http://localhost:3000/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials),
+        })
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+            .catch((err) => console.log(err))
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -58,10 +73,10 @@ const Register = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="mt-2 bg-blue-500 py-3 font-medium hover:bg-blue-700 rounded">
-                        Continue
+                    <button type="submit" className="mt-2  bg-blue-500 py-3 font-medium hover:bg-blue-700 rounded">
+                        {isLoading ? 'Loading...' : 'Register'}
                     </button>
-                    <Link href={'/register'} className="font-light text-xs text-blue-500 hover:underline">
+                    <Link href={'/login'} className="font-light text-xs text-blue-500 hover:underline">
                         Already have an account?
                     </Link>
                 </form>
