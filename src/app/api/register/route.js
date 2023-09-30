@@ -1,4 +1,4 @@
-import registerUser from '../../../../utils/auth.js';
+import { registerUser } from '../../../../utils/auth.js';
 
 export async function POST(req) {
     const body = await req.json();

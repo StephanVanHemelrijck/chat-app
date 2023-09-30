@@ -1,18 +1,44 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { useAuthContext } from '../context/store';
 
 const Login = () => {
+    const { user, setUser } = useAuthContext();
     const [credentials, setCredentials] = useState({ email: '', password: '' });
+    const [isLoading, setIsLoading] = useState(false);
+    const { push } = useRouter();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setCredentials({ ...credentials, [name]: value });
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         console.log(`Attempted to login with these credentials: ${JSON.stringify(credentials)}`);
+
+        setIsLoading(true);
+
+        await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                if (res.user) {
+                    setUser(res.user);
+                    push('/');
+                }
+
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => setIsLoading(false));
     };
 
     return (
@@ -51,7 +77,7 @@ const Login = () => {
                         </Link>
                     </div>
                     <button type="submit" className="bg-blue-500 py-3 font-medium hover:bg-blue-700">
-                        Log In
+                        {isLoading ? 'Loading...' : 'Login'}
                     </button>
                     <p className="font-light text-xs">
                         Need an account?{' '}

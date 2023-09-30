@@ -1,17 +1,33 @@
 'use client';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { logoutUser } from '../../utils/auth';
 import { useAuthContext } from './context/store';
 
 const Page = () => {
     const { user, setUser } = useAuthContext();
 
-    useEffect(() => {}, []);
-
     return (
-        <Link href="/login">
-            <p>{user.email}</p>
-        </Link>
+        <>
+            {Object.keys(user).length > 0 ? (
+                <>
+                    <p>{user.email}</p>
+                    <button
+                        onClick={async () => {
+                            const user = await logoutUser();
+
+                            if (!user) setUser({});
+                        }}
+                    >
+                        Logout
+                    </button>
+                </>
+            ) : (
+                <Link href="/login">
+                    <button>Login</button>
+                </Link>
+            )}
+        </>
     );
 };
 

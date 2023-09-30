@@ -1,7 +1,6 @@
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
 import { auth, firestore } from './database.js';
-
 /**
  *
  * @param {string} email - Users email address
@@ -10,7 +9,7 @@ import { auth, firestore } from './database.js';
  *
  * @returns {Object} userCredential - Returns a userCredential object
  */
-export default async function registerUser(email, username, password) {
+export async function registerUser(email, username, password) {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -33,6 +32,24 @@ export default async function registerUser(email, username, password) {
 
             return userCredential;
         } else throw new Error('Failed to register a new user');
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export async function loginUser(email, password) {
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        return userCredential;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+export async function logoutUser() {
+    try {
+        const userCredential = await signOut(auth);
+        return userCredential;
     } catch (error) {
         throw new Error(error);
     }
