@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { auth, firestore } from './database.js';
 /**
  *
@@ -16,7 +16,7 @@ export async function registerUser(email, username, password) {
 
         if (userCredential) {
             let collRef = collection(firestore, 'users');
-            let result = await addDoc(collRef, {
+            const userObject = {
                 email,
                 username,
                 createdAt: Date.now(),
@@ -28,9 +28,15 @@ export async function registerUser(email, username, password) {
                 bio: '',
                 status: '',
                 notifications: [],
-            });
+            };
 
-            return userCredential;
+            await addDoc(collRef, userObject);
+
+            const q = query(collRef, where('uid', '==', user.uid));
+            const querySnapshot = await getDocs(q);
+            const userRef = querySnapshot.docs[0].data();
+
+            return userRef;
         } else throw new Error('Failed to register a new user');
     } catch (error) {
         throw new Error(error);
@@ -40,7 +46,16 @@ export async function registerUser(email, username, password) {
 export async function loginUser(email, password) {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        return userCredential;
+        // Fetch the logged in user from the database
+        const collRef = collection(firestore, 'users');
+
+        if (!userCredential) throw new Error('Failed to login user');
+
+        const q = query(collRef, where('uid', '==', userCredential.user.uid));
+        const querySnapshot = await getDocs(q);
+        const userRef = querySnapshot.docs[0].data();
+
+        return userRef;
     } catch (error) {
         throw new Error(error);
     }

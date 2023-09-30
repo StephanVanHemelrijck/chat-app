@@ -31,7 +31,7 @@ const FriendsAdd = () => {
                     type="text"
                     name="username"
                     id="username"
-                    className="bg-transparent placeholder:text-gray-500 w-1/2 focus:outline-none"
+                    className="bg-transparent placeholder:text-gray-500 flex-1 focus:outline-none"
                     placeholder="You can add friends with their username."
                     maxLength="25"
                     autoComplete="new-password"
@@ -39,7 +39,11 @@ const FriendsAdd = () => {
                     autoCorrect="off"
                     autoCapitalize="none"
                 />
-                <button type="submit" className="bg-blue-500 px-3 py-1 rounded font-medium hover:bg-blue-700">
+                <button
+                    disabled={username.length === 0}
+                    type="submit"
+                    className="bg-blue-500 px-3 py-1 rounded font-medium hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-500"
+                >
                     Send Friend Request
                 </button>
             </form>

@@ -28,8 +28,8 @@ const Login = () => {
         })
             .then((res) => res.json())
             .then((res) => {
-                if (res.user) {
-                    setUser(res.user);
+                if (res.uid) {
+                    setUser(res);
                     push('/');
                 }
 

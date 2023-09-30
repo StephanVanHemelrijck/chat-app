@@ -4,7 +4,7 @@ import FriendsAdd from './FriendsAdd';
 import FriendsNavigation from './FriendsNavigation';
 
 const Friends = () => {
-    const [selectedTab, setSelectedTab] = useState('add-friend');
+    const [selectedTab, setSelectedTab] = useState('Add Friend');
 
     const handleTabChange = (tab) => {
         setSelectedTab(tab);

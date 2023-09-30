@@ -11,7 +11,8 @@ const Page = () => {
     return (
         <>
             <Friends />
-            {/* {Object.keys(user).length > 0 ? (
+
+            {Object.keys(user).length > 0 ? (
                 <>
                     <p>{user.email}</p>
                     <button
@@ -28,7 +29,7 @@ const Page = () => {
                 <Link href="/login">
                     <button>Login</button>
                 </Link>
-            )} */}
+            )}
         </>
     );
 };

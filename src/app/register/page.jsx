@@ -38,11 +38,12 @@ const Register = () => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log('data', data);
                 // If there is an error, set the error state
                 if (data.error) {
                     setError(data.error);
                 } else {
-                    setUser(data.user);
+                    setUser(data);
                     push('/');
                 }
             })
