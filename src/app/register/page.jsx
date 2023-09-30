@@ -2,8 +2,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { useAuthContext } from '../context/store';
 
 const Register = () => {
+    const { user, setUser } = useAuthContext();
     const [credentials, setCredentials] = useState({ email: '', username: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -40,6 +42,7 @@ const Register = () => {
                 if (data.error) {
                     setError(data.error);
                 } else {
+                    setUser(data.user);
                     push('/');
                 }
             })

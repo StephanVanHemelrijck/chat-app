@@ -1,8 +1,6 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { addDoc, collection } from 'firebase/firestore';
-import { firestore } from './database.js';
-
-const auth = getAuth();
+import { auth, firestore } from './database.js';
 
 /**
  *
