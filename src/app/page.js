@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { logoutUser } from '../../utils/auth';
+import Friends from './components/Friends/Friends';
 import { useAuthContext } from './context/store';
 
 const Page = () => {
@@ -9,7 +10,8 @@ const Page = () => {
 
     return (
         <>
-            {Object.keys(user).length > 0 ? (
+            <Friends />
+            {/* {Object.keys(user).length > 0 ? (
                 <>
                     <p>{user.email}</p>
                     <button
@@ -26,7 +28,7 @@ const Page = () => {
                 <Link href="/login">
                     <button>Login</button>
                 </Link>
-            )}
+            )} */}
         </>
     );
 };
