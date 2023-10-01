@@ -1,4 +1,4 @@
-import { and, collection, getDocs, or, query, where } from 'firebase/firestore';
+import { collection, getDocs, or, query, where } from 'firebase/firestore';
 import { firestore } from 'utils/database';
 
 export async function GET(req, { params }) {

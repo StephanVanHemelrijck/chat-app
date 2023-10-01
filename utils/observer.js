@@ -1,9 +1,10 @@
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, or, query, where } from 'firebase/firestore';
 import { firestore } from './database.js';
 
 const friendRequestsObserver = (uid, socket) => {
     // Set up an observer for the "friend requests" collection
-    const q = query(collection(firestore, 'friendRequests'), where('requestTo', '==', uid));
+    const friendRequestsCollRef = collection(firestore, 'friendRequests');
+    const q = query(friendRequestsCollRef, or(where('requestTo', '==', uid), where('requestFrom', '==', uid)));
     const unsubscribe = onSnapshot(q, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
             // If a new friend request is added
