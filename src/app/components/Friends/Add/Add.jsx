@@ -1,16 +1,28 @@
 'use client';
+import { useAuthContext } from '@/app/context/store';
 import React, { useEffect, useState } from 'react';
 
 const FriendsAdd = () => {
-    const [username, setUsername] = useState('');
+    const [requestTo, setRequestTo] = useState('');
+    const { user } = useAuthContext();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e) => {
         const { value } = e.target;
-        setUsername(value);
+        setRequestTo(value);
     };
 
-    const handleSendFriendRequest = async (e) => {
-        console.log(`Attempted to send friend request to ${username}`);
+    const handleSendFriendRequest = async () => {
+        setIsLoading(true);
+        const response = await fetch(`/api/friends/add`, {
+            method: 'POST',
+            body: JSON.stringify({ username: user.username, requestTo }),
+        });
+        const data = await response.json();
+        if (data.success) {
+            setRequestTo('');
+        } else console.log(data);
+        setIsLoading(false);
     };
 
     return (
@@ -29,8 +41,8 @@ const FriendsAdd = () => {
                 <input
                     onChange={(e) => handleInputChange(e)}
                     type="text"
-                    name="username"
-                    id="username"
+                    name="requestTo"
+                    id="requestTo"
                     className="bg-transparent placeholder:text-gray-500 flex-1 focus:outline-none"
                     placeholder="You can add friends with their username."
                     maxLength="25"
@@ -38,13 +50,14 @@ const FriendsAdd = () => {
                     spellCheck="false"
                     autoCorrect="off"
                     autoCapitalize="none"
+                    value={requestTo}
                 />
                 <button
-                    disabled={username.length === 0}
+                    disabled={requestTo.length === 0}
                     type="submit"
                     className="bg-blue-500 px-3 py-1 rounded font-medium hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-blue-500"
                 >
-                    Send Friend Request
+                    {isLoading ? 'Sending Friend Request...' : 'Send Friend Request'}
                 </button>
             </form>
         </div>
