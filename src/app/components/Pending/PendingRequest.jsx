@@ -2,7 +2,7 @@ import { useAuthContext } from '@/app/context/store';
 import React, { useEffect, useState } from 'react';
 
 const PendingRequest = ({ request }) => {
-    const { user } = useAuthContext();
+    const { user, socket } = useAuthContext();
     const [userDetails, setUserDetails] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -26,7 +26,20 @@ const PendingRequest = ({ request }) => {
             setLoading(false);
         };
         fetchUser();
-    }, [user]);
+    }, [user, socket, request]);
+
+    const handleReject = async () => {
+        if (!socket) return;
+        const response = await fetch(`/api/${user.uid}/friends/requests/`, {
+            method: 'DELETE',
+            body: JSON.stringify({ id: request.id }),
+        });
+        const data = await response.json();
+
+        if (!data.error) {
+            socket.emit('friend-request-rejected', { uid: user.uid, friendUid: userDetails.uid, requestId: request.id });
+        }
+    };
 
     return (
         <>
@@ -38,7 +51,9 @@ const PendingRequest = ({ request }) => {
                     </div>
                     <div className="flex gap-2">
                         <button className="bg-green-500 rounded px-2 py-1 text-white text-sm">Accept</button>
-                        <button className="bg-red-500 rounded px-2 py-1 text-white text-sm">Decline</button>
+                        <button className="bg-red-500 rounded px-2 py-1 text-white text-sm" onClick={handleReject}>
+                            Decline
+                        </button>
                     </div>
                 </div>
             )}

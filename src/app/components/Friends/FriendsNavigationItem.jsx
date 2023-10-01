@@ -24,7 +24,11 @@ const FriendsNavigationItem = ({ title, style = '', handleTabChange }) => {
             };
 
             socket.on('new-friend-request-received', (data) => {
-                console.log(data);
+                fetchFriendRequests();
+            });
+
+            // Dont clear the socket on unmount because we want to keep listening for new friend request rejections
+            socket.on('friend-request-rejected-noti', (data) => {
                 fetchFriendRequests();
             });
 
@@ -33,10 +37,6 @@ const FriendsNavigationItem = ({ title, style = '', handleTabChange }) => {
             };
         }
     }, [user, socket]);
-
-    const handleTabChangeItem = (tab) => {
-        handleTabChange(tab);
-    };
 
     return (
         <div

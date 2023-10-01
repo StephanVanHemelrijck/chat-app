@@ -13,11 +13,16 @@ const Pending = () => {
         const getPendingRequests = async () => {
             const response = await fetch(`/api/${user.uid}/friends/requests`);
             const data = await response.json();
+            setPendingRequests([]);
             setPendingRequests(data);
         };
         getPendingRequests();
 
         socket.on('new-friend-request-received', () => {
+            getPendingRequests();
+        });
+
+        socket.on('friend-request-rejected', () => {
             getPendingRequests();
         });
     }, [user, socket]);
