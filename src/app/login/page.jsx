@@ -17,8 +17,6 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log(`Attempted to login with these credentials: ${JSON.stringify(credentials)}`);
-
         setIsLoading(true);
 
         await fetch('/api/login', {
@@ -32,8 +30,6 @@ const Login = () => {
                     setUser(res);
                     push('/');
                 }
-
-                console.log(res);
             })
             .catch((err) => {
                 console.log(err);

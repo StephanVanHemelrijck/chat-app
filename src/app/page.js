@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { logoutUser } from '../../utils/auth';
+import { friendRequestsObserver } from '../../utils/observer';
 import Friends from './components/Friends/Friends';
 import { useAuthContext } from './context/store';
 

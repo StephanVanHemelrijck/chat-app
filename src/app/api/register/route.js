@@ -9,8 +9,6 @@ export async function POST(req) {
     try {
         const userCredential = await registerUser(email, username, password);
 
-        console.log(userCredential);
-
         // Return user credential
         return Response.json(userCredential);
     } catch (error) {

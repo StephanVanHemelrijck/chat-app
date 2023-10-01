@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 import { auth, firestore } from './database.js';
+
 /**
  *
  * @param {string} email - Users email address
@@ -22,12 +23,9 @@ export async function registerUser(email, username, password) {
                 createdAt: Date.now(),
                 updatedAt: Date.now(),
                 uid: user.uid,
-                friends: [],
-                friendRequests: [],
                 avatar: '',
                 bio: '',
                 status: '',
-                notifications: [],
             };
 
             await addDoc(collRef, userObject);
