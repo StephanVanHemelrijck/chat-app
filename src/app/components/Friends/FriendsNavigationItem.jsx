@@ -28,7 +28,7 @@ const FriendsNavigationItem = ({ title, style = '', handleTabChange }) => {
             });
 
             // Dont clear the socket on unmount because we want to keep listening for new friend request rejections
-            socket.on('friend-request-rejected-noti', (data) => {
+            socket.on('friend-request-handled', (data) => {
                 fetchFriendRequests();
             });
 

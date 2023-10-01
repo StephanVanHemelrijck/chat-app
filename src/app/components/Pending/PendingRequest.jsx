@@ -41,6 +41,20 @@ const PendingRequest = ({ request }) => {
         }
     };
 
+    const handleAccept = async () => {
+        if (!socket) return;
+
+        const response = await fetch(`/api/${user.uid}/friends/requests/`, {
+            method: 'POST',
+            body: JSON.stringify({ friendRequestId: request.id }),
+        });
+        const data = await response.json();
+
+        if (!data.error) {
+            socket.emit('friend-request-accepted', { uid: user.uid, friendUid: userDetails.uid, requestId: request.id });
+        }
+    };
+
     return (
         <>
             {!loading && (
@@ -50,7 +64,9 @@ const PendingRequest = ({ request }) => {
                         <p className="text-xs font-normal">{user.uid === request.requestFrom ? 'Outgoing Friend Request' : 'Incoming Friend Request'}</p>
                     </div>
                     <div className="flex gap-2">
-                        <button className="bg-green-500 rounded px-2 py-1 text-white text-sm">Accept</button>
+                        <button className="bg-green-500 rounded px-2 py-1 text-white text-sm" onClick={handleAccept}>
+                            Accept
+                        </button>
                         <button className="bg-red-500 rounded px-2 py-1 text-white text-sm" onClick={handleReject}>
                             Decline
                         </button>

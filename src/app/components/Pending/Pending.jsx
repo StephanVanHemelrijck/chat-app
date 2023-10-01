@@ -25,6 +25,10 @@ const Pending = () => {
         socket.on('friend-request-rejected', () => {
             getPendingRequests();
         });
+
+        socket.on('friend-request-accepted', () => {
+            getPendingRequests();
+        });
     }, [user, socket]);
 
     return (
