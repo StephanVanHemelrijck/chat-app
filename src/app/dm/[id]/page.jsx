@@ -73,7 +73,7 @@ const Dm = ({ params }) => {
     };
 
     const handleSendMessage = async () => {
-        socket.emit('new-dm-message', { dmId: dmObject.id, message: inputMessage, sender: user.uid });
+        socket.emit('new-dm-message', { dmId: dmObject.dmId, message: inputMessage, sender: user.uid });
 
         setInputMessage('');
     };

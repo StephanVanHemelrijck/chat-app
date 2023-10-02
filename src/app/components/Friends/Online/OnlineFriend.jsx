@@ -3,21 +3,32 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const OnlineFriend = ({ friend }) => {
-    const { user } = useAuthContext();
+    const { user, socket } = useAuthContext();
     const { push } = useRouter();
 
     const handleInitiateMessage = async () => {
-        if (!user) return;
+        if (!user || !socket) return;
         console.log(`message ${friend.username}`);
 
-        const response = await fetch(`/api/${user.uid}/dm/${friend.uid}`, {
+        console.log(user.uid, friend.uid);
+
+        const response = await fetch(`/api/${user.uid}/dm`, {
             method: 'POST',
+            body: JSON.stringify({
+                uid: user.uid,
+                friendUid: friend.uid,
+            }),
         });
 
         const data = await response.json();
 
+        console.log(data);
+
+        // emit to socket
+        socket.emit('start-dm', { dmId: data.dmId });
+
         // redirect to the new dm
-        push(`/dm/${data.friendUid}`);
+        push(`/dm/${data.dmId}`);
     };
 
     return (

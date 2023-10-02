@@ -30,11 +30,11 @@ const DirectMessagesUser = ({ dm }) => {
     const handleStartDm = () => {
         console.log('start dm');
 
-        //
-        push(`/dm/${dm.dm_id}`);
-
         // emit to socket
-        socket.emit('start-dm', { dmId: dm.dm_id });
+        socket.emit('start-dm', { dmId: dm.dmId });
+
+        //
+        push(`/dm/${dm.dmId}`);
     };
 
     return (
