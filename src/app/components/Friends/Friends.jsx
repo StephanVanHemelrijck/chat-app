@@ -14,15 +14,15 @@ const Friends = () => {
     };
 
     return (
-        <div className="w-screen h-screen ">
+        <div className="w-full h-screen">
             <FriendsNavigation handleTabChange={handleTabChange} />
-            <div className="w-3/4 mx-auto m-10">
+            <div className="w-3/4 my-10 px-10">
                 {selectedTab === 'Add Friend' && <Add />}
                 {selectedTab === 'Pending' && <Pending />}
                 {selectedTab === 'All' && <All />}
                 {selectedTab === 'Online' && <Online />}
             </div>
-            {selectedTab === 'Add Friend' && <hr className="border-t-gray-700" />}
+            {selectedTab === 'Add Friend' && <hr className="border-t-2 border-t-slate-600" />}
         </div>
     );
 };

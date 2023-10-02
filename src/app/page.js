@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { logoutUser } from '../../utils/auth';
 import { friendRequestsObserver } from '../../utils/observer';
+import DirectMessagesSidebar from './components/DirectMessages/DirectMessagesSidebar';
 import Friends from './components/Friends/Friends';
 import { useAuthContext } from './context/store';
 
@@ -11,7 +12,14 @@ const Page = () => {
 
     return (
         <>
-            <Friends />
+            <div className="grid grid-cols-6">
+                <div className="col-span-1">
+                    <DirectMessagesSidebar />
+                </div>
+                <div className="col-span-5">
+                    <Friends />
+                </div>
+            </div>
 
             {Object.keys(user).length > 0 ? (
                 <>

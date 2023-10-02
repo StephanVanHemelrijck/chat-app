@@ -13,8 +13,6 @@ const Online = () => {
             const response = await fetch(`/api/${user.uid}/friends/online`);
             const data = await response.json();
 
-            console.log(data);
-
             setOnlineFriends([]);
             setOnlineFriends(data);
         };
@@ -25,16 +23,16 @@ const Online = () => {
     return (
         <div>
             <h2 className="text-sm font-bold">ONLINE - {onlineFriends.length}</h2>
-            <hr className="border-t-gray-700 mt-5" />
+            <hr className="border-t-2 border-t-slate-600 mt-5" />
             {onlineFriends.length > 0 ? (
                 onlineFriends.map((friend, index) => (
                     <div key={index}>
                         <OnlineFriend friend={friend} />
-                        <hr className="border-t-gray-700" />
+                        <hr className="border-t-2 border-t-slate-600" />
                     </div>
                 ))
             ) : (
-                <p className="text-sm text-gray-400 mb-5">No online friends.</p>
+                <p className="text-sm text-gray-400 mb-5 my-5">No online friends.</p>
             )}
         </div>
     );

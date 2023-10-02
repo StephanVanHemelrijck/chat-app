@@ -8,3 +8,8 @@
     font-family: 'Inter', sans-serif;
     color: white;
 }
+
+.slate-hover {
+    --tw-bg-opacity: 1;
+    background-color: #1f2937;
+}

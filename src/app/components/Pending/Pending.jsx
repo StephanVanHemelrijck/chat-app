@@ -34,12 +34,12 @@ const Pending = () => {
     return (
         <div>
             <h2 className="text-sm font-bold ">PENDING - {pendingRequests.length}</h2>
-            <hr className="border-t-gray-700 my-5" />
+            <hr className="border-t-2 border-t-slate-600 my-5" />
             {pendingRequests.length > 0 ? (
                 pendingRequests.map((request, index) => (
                     <div key={index}>
                         <PendingRequest request={request} />
-                        <hr className="border-t-gray-700 my-5" />
+                        <hr className="border-t-slate-600 my-5" />
                     </div>
                 ))
             ) : (

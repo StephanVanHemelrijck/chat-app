@@ -41,7 +41,7 @@ const FriendsNavigationItem = ({ title, style = '', handleTabChange }) => {
     return (
         <div
             onClick={() => handleTabChange(title)}
-            className="flex justify-center items-center px-2 py-1 gap-2 cursor-pointer hover:bg-slate-700 hover:rounded"
+            className="flex justify-center items-center px-2 py-1 gap-2 cursor-pointer hover:bg-slate-600 hover:rounded"
         >
             <p className={`${style} text-md`}>{title}</p>
             {title === 'Pending' && friendRequests.length != 0 && (
